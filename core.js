@@ -5,7 +5,7 @@
 (function (root) {
   "use strict";
   var C = root.TC_CONFIG || (typeof require !== "undefined" ? (require("./config.js"), global.TC_CONFIG) : null);
-  var RELEVANT = new RegExp(C.RELEVANT, "i"), LEGAL = new RegExp(C.LEGAL, "i"), STRONG = new RegExp(C.STRONG, "i");
+  var RELEVANT = new RegExp(C.RELEVANT, "i"), LEGAL = new RegExp(C.LEGAL, "i"), STRONG = new RegExp(C.STRONG, "i"), ALIEN = new RegExp(C.ALIEN, "i");
   var DAY = 864e5;
 
   function decode(s) {
@@ -188,6 +188,7 @@
     return out.length ? out : ["Other"];
   }
   function relevant(it) {
+    if (ALIEN.test((it.title || "") + " " + (it.snippet || ""))) return false;  // no alien/UFO content
     if (it.platform === "Reddit" || it.platform === "X") return true;
     var text = it.title + " " + (it.snippet || "");
     if (!RELEVANT.test(text)) return false;
